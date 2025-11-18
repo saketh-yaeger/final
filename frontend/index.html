@@ -1,18 +1,63 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <title>Ping RTT Tool</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
+  <!-- Simple icons from Phosphor (no build step needed) -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
-  <main>
-    <h1>Ping RTT Tool</h1>
-    <input id="host" placeholder="example.com or 8.8.8.8" />
-    <button id="pingBtn">Ping</button>
-    <pre id="out"></pre>
-  </main>
+  <div class="container">
+    <header>
+      <h1><i class="ph ph-wave-sine"></i> Ping RTT Tool</h1>
+      <p>Measure round-trip time to any host instantly</p>
+    </header>
+
+    <div class="input-group">
+      <input type="text" id="host" placeholder="example.com or 8.8.8.8" autofocus />
+      <button id="pingBtn">
+        <i class="ph ph-paper-plane-right"></i> Ping
+      </button>
+    </div>
+
+    <div id="loading" class="loading hidden">
+      <i class="ph ph-spinner spinner"></i> Pinging…
+    </div>
+
+    <div id="result" class="result-grid hidden">
+      <div class="card success">
+        <i class="ph ph-check-circle"></i>
+        <span class="label">Status</span>
+        <span class="value" id="status">Success</span>
+      </div>
+
+      <div class="card">
+        <i class="ph ph-globe"></i>
+        <span class="label">Host</span>
+        <span class="value" id="hostResult">-</span>
+      </div>
+
+      <div class="card latency network">
+        <i class="ph ph-clock-counter-clockwise"></i>
+        <span class="label">Network RTT</span>
+        <span class="value" id="networkLatency">-</span>
+      </div>
+
+      <div class="card latency server">
+        <i class="ph ph-server"></i>
+        <span class="label">Server Processing</span>
+        <span class="value" id="serverLatency">-</span>
+      </div>
+    </div>
+
+    <details id="rawDetails" class="raw-output hidden">
+      <summary><i class="ph ph-code"></i> Raw ping output</summary>
+      <pre id="raw"></pre>
+    </details>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
