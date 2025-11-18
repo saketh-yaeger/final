@@ -58,5 +58,47 @@ app.post('/ping', (req, res) => {
   });
 });
 
+app.get('/', (req, res) => {
+  res.send(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Ping Tester</title>
+      <style>
+        body { font-family: Arial, sans-serif; padding: 40px; background: #f0f0f0; }
+        input, button { padding: 12px; font-size: 16px; margin: 10px 0; }
+        button { background: #007bff; color: white; border: none; cursor: pointer; padding: 12px 24px; }
+        pre { background: #fff; padding: 15px; border-radius: 8px; }
+      </style>
+    </head>
+    <body>
+      <h1>Ping Tester</h1>
+      <input id="host" placeholder="Enter host (e.g. google.com or 8.8.8.8)" style="width: 400px;" />
+      <button onclick="ping()">Ping it!</button>
+      <pre id="result">Result will appear here...</pre>
+
+      <script>
+        async function ping() {
+          const host = document.getElementById('host').value.trim() || '8.8.8.8';
+          document.getElementById('result').textContent = 'Pinging...';
+          try {
+            const response = await fetch('/ping', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ host })
+            });
+            const data = await response.json();
+            document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+          } catch (err) {
+            document.getElementById('result').textContent = 'Error: ' + err.message;
+          }
+        }
+      </script>
+    </body>
+    </html>
+  `);
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`✅ Server running at http://localhost:${PORT}`));
